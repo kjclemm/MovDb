@@ -2,5 +2,5 @@
     <string name="app_name">RetrofitRecyclerViewGuide</string>
     <string name="base_url">https://api.themoviedb.org/3/</string>
     <string name="picture_base_url">http://image.tmdb.org/t/p/w500/</string>
-    <string name="api_key">ADD YOUR API KEY HERE</string>
+    <string name="api_key">kjclemm</string>
 </resources>
