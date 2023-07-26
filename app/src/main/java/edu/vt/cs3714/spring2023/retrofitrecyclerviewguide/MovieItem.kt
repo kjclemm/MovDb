@@ -3,7 +3,7 @@ package edu.vt.cs3714.spring2023.retrofitrecyclerviewguide
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
+import java.util.Date
 
 @Entity(tableName = "movie_table")
 data class MovieItem(@PrimaryKey @ColumnInfo(name ="id") var id: Long,
