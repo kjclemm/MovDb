@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -69,5 +70,4 @@ class MovieViewModel (application : Application) : AndroidViewModel(application)
     private fun deleteAll() = scope.launch (Dispatchers.IO){
         repository.deleteAll()
     }
-
 }

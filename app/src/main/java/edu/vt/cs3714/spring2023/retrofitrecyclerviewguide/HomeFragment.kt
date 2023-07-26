@@ -97,7 +97,9 @@ private val model: MovieViewModel by activityViewModels()
             holder.itemView.setOnClickListener {
                 Log.d("T04", "MovieViewHolder list tap " + holder.view.findViewById<TextView>(R.id.title).text)
                 view?.findNavController()?.navigate(R.id.action_homeFragment_to_detailFragment,
-                bundleOf("img" to movies[position].poster_path, "content" to holder.view.findViewById<TextView>(R.id.title).text)
+                bundleOf("img" to movies[position].poster_path, "content" to holder.view.findViewById<TextView>(R.id.title).text,
+                "date" to movies[position].release_date.toString(), "details" to movies[position].overview,
+                    "position" to position)
                 )
             }
         }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RetrofitRecyclerViewGuide</string>
+    <string name="app_name">HW04</string>
     <string name="base_url">https://api.themoviedb.org/3/</string>
     <string name="picture_base_url">http://image.tmdb.org/t/p/w500/</string>
     <string name="api_key">1d38ec3a0ff9c32dea02f1e7aa29af62</string>
