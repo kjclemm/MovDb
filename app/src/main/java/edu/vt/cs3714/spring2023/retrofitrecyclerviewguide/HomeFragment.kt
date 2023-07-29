@@ -1,5 +1,6 @@
 package edu.vt.cs3714.spring2023.retrofitrecyclerviewguide
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,7 +27,7 @@ import com.bumptech.glide.request.RequestOptions
 class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 private val model: MovieViewModel by activityViewModels()
     var adapterRecycle = MovieListAdapter()
-
+    private lateinit var spinner: Spinner
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,7 +46,7 @@ private val model: MovieViewModel by activityViewModels()
         val recyclerView = view.findViewById<RecyclerView>(R.id.movie_list)
         recyclerView.adapter = adapterRecycle
         recyclerView.layoutManager = LinearLayoutManager(this.context)
-        val spinner: Spinner = view.findViewById(R.id.sortSelector)
+        spinner = view.findViewById(R.id.sortSelector)
         spinner.onItemSelectedListener = this
         ArrayAdapter.createFromResource(this.requireContext(), R.array.sorters, android.R.layout.simple_spinner_item)
             .also{adapter ->
@@ -58,14 +59,15 @@ private val model: MovieViewModel by activityViewModels()
                 movies.let{adapterRecycle.setMovies(it)}
             }
         )
+        val filterButton: Button = view.findViewById<Button>(R.id.filterButton)
         (view.findViewById<Button>(R.id.refresh)).setOnClickListener{
             model.refreshMovies(1)
             spinner.setSelection(0)
             model.movieTitles.clear()
             model.filterOn = false
+            filterButton.text="Filter Liked"
         }
 
-        val filterButton: Button = view.findViewById<Button>(R.id.filterButton)
         if(!model.filterOn){
             filterButton.text="Filter Liked"
         }else{
@@ -80,6 +82,13 @@ private val model: MovieViewModel by activityViewModels()
             }else if(!model.movieTitles.isNullOrEmpty() &&model.filterOn){
                 model.filterOn = false
                 filterButton.text = "Filter Liked"
+                if(spinner.selectedItem.toString() == "Sort By Score")
+                    adapterRecycle.setMovies(model.allMovies.value!!.sortedByDescending { it.vote_average })
+                else if (spinner.selectedItem.toString() == "Sort By Title"){
+                    adapterRecycle.setMovies(model.allMovies.value!!.sortedBy { it.title })
+                }else{
+                    adapterRecycle.setMovies(model.allMovies.value!!.sortedByDescending { it.release_date })
+                }
             }else{
                 Toast.makeText(requireView().context, "No Liked Movies to Filter", Toast.LENGTH_SHORT).show()
             }
@@ -171,10 +180,15 @@ private val model: MovieViewModel by activityViewModels()
                  * updates local temporary list for recycler view and changes the recycler view
                  */
                 override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                    if(model.filterOn) {
-                        movies = (results?.values as List<MovieItem>?)!!
-                        notifyDataSetChanged()
+                    var item: String = spinner.selectedItem.toString()
+                    movies = if(item == "Sort By Score") {
+                        (results?.values as List<MovieItem>?)!!.sortedByDescending { it.vote_average }
+                    }else if(item == "Sort By Title"){
+                        (results?.values as List<MovieItem>?)!!.sortedBy { it.title }
+                    } else {
+                        (results?.values as List<MovieItem>?)!!.sortedByDescending { it.release_date }
                     }
+                    notifyDataSetChanged()
                 }
             }
         }
