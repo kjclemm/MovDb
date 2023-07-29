@@ -34,29 +34,22 @@ class MovieViewModel (application : Application) : AndroidViewModel(application)
 
     private val repository: MovieItemRepository
     var allMovies: LiveData<List<MovieItem>>
-    var mutabList: MutableLiveData<List<MovieItem>>
+    var movieTitles: ArrayList<String>
+    var filterOn: Boolean = false
 
     init {
         val moviesDao = MovieRoomDatabase.getDatabase(application).movieDao()
         repository = MovieItemRepository(moviesDao)
         allMovies = repository.allMovies
-        mutabList = MutableLiveData<List<MovieItem>>(allMovies.value)
+        movieTitles = ArrayList<String>()
     }
 
-    fun sort(){
-        mutabList = MutableLiveData<List<MovieItem>>(allMovies.value)
-        mutabList.value?.sortedBy {
-            it.vote_average
-        }
-        Log.d("MUTATE", mutabList.value.toString())
-    }
     fun refreshMovies(page: Int){
         disposable =
             RetrofitService.create(api_base_url).getNowPlaying( api_key ,page).subscribeOn(
                 Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe(
-                {result -> showResult(result)},
-                {error -> showError(error)})
+                {result -> showResult(result)},)
     }
 
     private fun showError(error: Throwable?) {
@@ -78,6 +71,10 @@ class MovieViewModel (application : Application) : AndroidViewModel(application)
 
     private fun deleteAll() = scope.launch (Dispatchers.IO){
         repository.deleteAll()
+    }
+
+    fun updateLiked(title: String){
+        repository
     }
 
 }

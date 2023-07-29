@@ -14,7 +14,7 @@ data class MovieItem(@PrimaryKey @ColumnInfo(name ="id") var id: Long,
                      @ColumnInfo(name ="popularity") var popularity: Float,
                      @ColumnInfo(name ="poster_path") var poster_path: String,
                      @ColumnInfo(name ="overview") var overview: String,
-                     @ColumnInfo(name ="release_date") var release_date: Date
+                     @ColumnInfo(name ="release_date") var release_date: Date,
 )
 
 //Example JSON record from MovieDB

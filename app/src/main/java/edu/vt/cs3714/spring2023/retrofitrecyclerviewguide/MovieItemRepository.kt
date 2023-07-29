@@ -7,11 +7,6 @@ import androidx.lifecycle.LiveData
 class MovieItemRepository(private val movieDao: MovieItemDao) {
 
     val allMovies: LiveData<List<MovieItem>> = movieDao.getAllMovies()
-
-    @WorkerThread
-    fun moviesByTitle(){
-        movieDao.deleteAll()
-    }
     @WorkerThread
     fun insert(movie: MovieItem) {
 
@@ -23,4 +18,5 @@ class MovieItemRepository(private val movieDao: MovieItemDao) {
     fun deleteAll() {
         movieDao.deleteAll()
     }
+
 }

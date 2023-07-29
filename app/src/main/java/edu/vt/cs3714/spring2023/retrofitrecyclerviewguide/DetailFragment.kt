@@ -39,24 +39,22 @@ class DetailFragment : Fragment() {
         movieDetails = this.arguments?.getString("details")
         position = this.arguments?.getInt("position")
         val likeButton: Button = v.findViewById<Button>(R.id.likeButton)
-//        if(model.allMovies.value!![position!!].liked) {
-//            likeButton.text = "Unlike"
-//        }
-//        likeButton.setOnClickListener(){
-//            var isLiked: Boolean = model.allMovies.value!![position!!].liked
-//            if(isLiked){
-//                model.allMovies.value!![position!!].liked = false
-//                likeButton.text = "Like"
-//                Log.d("UNLIKED", model.allMovies.value!![position!!].liked.toString())
-//            }
-//            else{
-//                model.allMovies.value!![position!!].liked = true
-//                likeButton.text = "Unlike"
-//                Log.d("LIKED", model.allMovies.value!![position!!].liked.toString())
-//            }
-//        }
-//        position?.let { model.allMovies.value?.get(it)?.liked } ?: true
-        Log.d("LIKED", position.toString())
+        if(model.movieTitles?.contains(movieTitle!!) == true) {
+            likeButton.text = "Unlike"
+        }
+        likeButton.setOnClickListener(){
+           var isLiked: Boolean = model.movieTitles?.contains(movieTitle!!) == true
+            if(isLiked){
+                movieTitle?.let { it1 -> model.movieTitles?.remove(it1)  }
+               likeButton.text = "Like"
+               Log.d("UNLIKED", model.movieTitles?.contains(movieTitle!!).toString())
+           }
+            else{
+                model.movieTitles.add(movieTitle!!)
+                likeButton.text = "Unlike"
+                Log.d("LIKED", model.movieTitles?.contains(movieTitle!!).toString())
+            }
+        }
         v.findViewById<TextView>(R.id.details).text = movieDetails
         v.findViewById<TextView>(R.id.yearOut).text = movieDate
         v.findViewById<TextView>(R.id.movieTitle)?.text  = movieTitle
