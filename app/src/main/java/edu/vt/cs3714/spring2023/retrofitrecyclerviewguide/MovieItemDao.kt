@@ -9,7 +9,7 @@ import androidx.room.Query
 @Dao
 interface MovieItemDao {
 
-    @Query("SELECT * FROM movie_table order BY release_date DESC")
+    @Query("SELECT * FROM movie_table ORDER BY release_date DESC")
     fun getAllMovies(): LiveData<List<MovieItem>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

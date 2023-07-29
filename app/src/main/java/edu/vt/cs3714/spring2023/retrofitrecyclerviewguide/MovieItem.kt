@@ -1,5 +1,6 @@
 package edu.vt.cs3714.spring2023.retrofitrecyclerviewguide
 
+import android.graphics.Movie
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -14,7 +15,6 @@ data class MovieItem(@PrimaryKey @ColumnInfo(name ="id") var id: Long,
                      @ColumnInfo(name ="poster_path") var poster_path: String,
                      @ColumnInfo(name ="overview") var overview: String,
                      @ColumnInfo(name ="release_date") var release_date: Date
-//var liked: Boolean = false
 )
 
 //Example JSON record from MovieDB

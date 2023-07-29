@@ -1,13 +1,11 @@
 package edu.vt.cs3714.spring2023.retrofitrecyclerviewguide
 
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -38,9 +36,17 @@ private val model: MovieViewModel by activityViewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.movie_list)
-        val adapter = MovieListAdapter()
+        var adapter = MovieListAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
+
+        (view.findViewById<Button>(R.id.sortAverageVote).setOnClickListener{
+
+            var tempList = model.allMovies.value?.sortedBy { it.vote_average }
+            Log.d("SORTED", tempList?.get(0)?.vote_average.toString())
+            adapter.setMovies(tempList!!)
+        })
+
 
         model.allMovies.observe(
             this.viewLifecycleOwner,
@@ -48,11 +54,11 @@ private val model: MovieViewModel by activityViewModels()
                 movies.let{adapter.setMovies(it)}
             }
         )
-
         (view.findViewById<Button>(R.id.refresh)).setOnClickListener{
             model.refreshMovies(1)
         }
     }
+
     inner class MovieListAdapter :
         RecyclerView.Adapter<HomeFragment.MovieListAdapter.MovieViewHolder>() {
 
