@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -32,12 +33,15 @@ class MovieViewModel (application : Application) : AndroidViewModel(application)
     private var disposable: Disposable? = null
 
     private val repository: MovieItemRepository
-    val allMovies: LiveData<List<MovieItem>>
+    var allMovies: LiveData<List<MovieItem>>
+    var movieTitles: ArrayList<String>
+    var filterOn: Boolean = false
 
     init {
         val moviesDao = MovieRoomDatabase.getDatabase(application).movieDao()
         repository = MovieItemRepository(moviesDao)
         allMovies = repository.allMovies
+        movieTitles = ArrayList<String>()
     }
 
     fun refreshMovies(page: Int){
@@ -45,8 +49,7 @@ class MovieViewModel (application : Application) : AndroidViewModel(application)
             RetrofitService.create(api_base_url).getNowPlaying( api_key ,page).subscribeOn(
                 Schedulers.io()).observeOn(
                 AndroidSchedulers.mainThread()).subscribe(
-                {result -> showResult(result)},
-                {error -> showError(error)})
+                {result -> showResult(result)},)
     }
 
     private fun showError(error: Throwable?) {
@@ -68,6 +71,10 @@ class MovieViewModel (application : Application) : AndroidViewModel(application)
 
     private fun deleteAll() = scope.launch (Dispatchers.IO){
         repository.deleteAll()
+    }
+
+    fun updateLiked(title: String){
+        repository
     }
 
 }

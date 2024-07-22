@@ -1,8 +1,7 @@
 package edu.vt.cs3714.spring2023.retrofitrecyclerviewguide
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).

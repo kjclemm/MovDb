@@ -1,9 +1,10 @@
 package edu.vt.cs3714.spring2023.retrofitrecyclerviewguide
 
+import android.graphics.Movie
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
+import java.util.Date
 
 @Entity(tableName = "movie_table")
 data class MovieItem(@PrimaryKey @ColumnInfo(name ="id") var id: Long,
@@ -13,8 +14,7 @@ data class MovieItem(@PrimaryKey @ColumnInfo(name ="id") var id: Long,
                      @ColumnInfo(name ="popularity") var popularity: Float,
                      @ColumnInfo(name ="poster_path") var poster_path: String,
                      @ColumnInfo(name ="overview") var overview: String,
-                     @ColumnInfo(name ="release_date") var release_date: Date
-
+                     @ColumnInfo(name ="release_date") var release_date: Date,
 )
 
 //Example JSON record from MovieDB

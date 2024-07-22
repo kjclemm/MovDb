@@ -1,6 +1,6 @@
 package edu.vt.cs3714.spring2023.retrofitrecyclerviewguide
 import androidx.room.TypeConverter
-import java.util.*
+import java.util.Date
 
 class DateConverter {
 
